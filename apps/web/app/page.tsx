@@ -1,44 +1,35 @@
-import AddTodo from "../components/todos/AddTodo";
-import Todo from "../components/todos/Todo";
-import { prisma } from "../utils/prisma";
+import { Poppins } from "next/font/google";
 
-async function getData() {
-  const data = await prisma.todo.findMany({
-    select: {
-      title: true,
-      id: true,
-      isCompleted: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+// import { LoginButton } from "@/components/auth/login-button";
 
-  return data;
-}
+const font = Poppins({
+  subsets: ["latin"],
+  weight: ["600"],
+});
 
-export default async function Home() {
-  const data = await getData();
+export default function Home() {
   return (
-    <div className=" w-screen py-20 flex justify-center flex-col items-center bg-black">
-      <span className="text-4xl font-extrabold uppercase text-purple-500">
-        [WEB] Todo App
-      </span>
-      <h1 className="text-5xl font-extrabold uppercase mb-5 text-center text-white">
-        <span className="lowercase">w/</span>Server Actions [DOCS]
-      </h1>
-
-      <div className="flex justify-center flex-col items-center">
-        <AddTodo />
-
-        <div className="flex flex-col gap-5 items-center justify-center mt-10 w-screen">
-          {data.map((todo, id) => (
-            <div className="w-full" key={id}>
-              <Todo todo={todo} />
-            </div>
-          ))}
+    <main className="flex h-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+      <div className="space-y-6 text-center">
+        <h1
+          className={cn(
+            "text-6xl font-semibold text-white drop-shadow-md",
+            font.className
+          )}
+        >
+          🔐 Auth
+        </h1>
+        <p className="text-white text-lg">A simple authentication service</p>
+        <div>
+          {/* <LoginButton  asChild> */}
+          <Button variant="secondary" size="lg">
+            Sign in
+          </Button>
+          {/* </LoginButton> */}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
